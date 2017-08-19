@@ -1,0 +1,92 @@
+{% extends 'base-2.html' %}
+
+{% block title %}Ndeiya - Cattle Detail{% endblock %}
+
+{% block page_title %}Cattle Detail{% endblock %}
+
+{% block content %}
+<div class="row justify-content-start">
+	<div class="col-md-4 cattle-bio">
+		<div class="page-header">
+		<h3>Basic detail</h3>
+		</div>
+		<h4><strong>Name: </strong> <span>{{ cow.name }}</span></h4>
+		<h4><strong>Tag No: </strong> <span>{{ cow.tag_no }}</span></h4>
+		<h4><strong>Breed: </strong> <span>{{ cow.breed }}</span></h4>
+		<a class="btn btn-primary" href="{% url 'dairy:edit-cattle' cow.pk %}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+		<a class="btn btn-danger" href="{% url 'dairy:delete-cattle' cow.pk %}" onclick="return confirm('This action is irreversible. Are you sure?');"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+	</div>
+	<div class="col-md-8">
+	
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+		{% endfor %}
+		{% endif %}
+
+		<div class="page-header">
+		<button class="pull-right btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Record milk</button>
+		<h3>Milk Production History</h3>
+		</div>
+		<table class="table table-hovered">
+			<thead>
+				<th>Date</th>
+				<!-- <th>Milking Session</th> -->
+				<th>Amount Produced</th>
+			</thead>
+			<tbody>
+				{% if milk %}
+				{% for record in milk %}
+				<tr>
+					<td>{{ record.milking_date }}</td>
+					<!-- <td>{{ record.session }}</td> -->
+					<td>{{ record.total_milk }} Ltrs</td>
+				</tr>
+				{% endfor %}
+				{% else %}
+				<tr>
+					<td colspan="3" class="text-center"><h3>No milk records for {{ cow.name }} yet!!</h3></td>
+				</tr>
+				{% endif %}
+			</tbody>
+			
+		</table>
+	</div>
+	
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role=dialog>
+	<div class="modal-dialog">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Record milk</h4>
+			</div>
+			<div class="modal-body">
+			<form role="form" method="POST" action="{% url 'dairy:record-cattle-milk' %}">{% csrf_token %}
+				<input type="hidden" name="cow" value="{{ cow.pk }}">
+				<div class="form-group">
+					<label>Milking Session</label>
+					<select class="form-control" name="session">
+						<option selected disabled>--Select milking session--</option>
+						<option value="Morning">Morning</option>
+						<option value="Noon">Noon</option>
+						<option value="Afternoon">Afternoon</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Amount</label>
+					<input type="text" name="amount" class="form-control">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary">Record</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

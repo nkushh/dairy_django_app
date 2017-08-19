@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<h1>Join Now!!</h1>
+{% if messages %}
+{% for message in messages %}
+<div {% if message.tags %} class = "alert alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
+{% endfor %}
+{% endif %}
+<form action="" method="POST">
+{%csrf_token%}
+{{ form.as_p }}
+<input type="submit" name="submit" value="Signup">
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base-2.html' %}
+
+{% block title %}Ndeiya - Add Milk{% endblock %}
+
+{% block page_title %}Add Milk Record{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>Record Milk Produced</h3></div>
+			<div class="panel-body">
+				
+				<form role="form" method="POST" action="{% url 'dairy:record-milk' %}">{% csrf_token%}
+					<div class="form-group">
+						<label>Cattle</label>
+						<select class="form-control" name="cow">
+							<option selected disbaled>--Select cow--</option>
+							{% if cattle %}
+							{% for cow in cattle %}
+							<option value="{{ cow.pk }}">{{ cow.name }}</option>
+							{% endfor %}
+							{% endif %}
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Milking Session</label>
+						<select class="form-control" name="session">
+							<option selected disabled>--Select milking session--</option>
+							<option value="Morning">Morning</option>
+							<option value="Noon">Noon</option>
+							<option value="Afternoon">Afternoon</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Amount</label>
+						<input type="text" name="amount" class="form-control">
+					</div>
+					<div class="col-md-offset-2">
+						<button type="submit" class="btn btn-primary">Record</button>
+						<button type="reset" class="btn btn-danger">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

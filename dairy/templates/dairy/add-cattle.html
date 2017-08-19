@@ -1,0 +1,40 @@
+{% extends 'base-2.html' %}
+
+{% block title %}Ndeiya - Add Cattle{% endblock %}
+
+{% block page_title %}Add Cattle{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>Cattle details</h3></div>
+			<div class="panel-body">
+				<form role="form" method="POST" action="{% url 'dairy:new-cattle' %}">{% csrf_token%}
+					<div class="form-group">
+						<label>Tag No.</label>
+						<input type="text" name="tag_no" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Cattle Name</label>
+						<input type="text" name="name" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Cattle Breed</label>
+						<select class="form-control" name="breed" required>
+							<option selected disabled>--Select Breed--</option>
+							<option value="Black and White Fresian">Black and White Fresian</option>
+							<option value="Angus">Angus</option>
+							<option value="Jersey">Jersey</option>
+						</select>
+					</div>
+					<div class="col-md-offset-2">
+						<button type="submit" class="btn btn-primary">Add Cattle</button>
+						<button type="reset" class="btn btn-danger">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
